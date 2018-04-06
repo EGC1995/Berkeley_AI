@@ -72,6 +72,15 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+def extractCoordinates(successorStates):
+    listOfCoordinates = []
+    index = len(successorStates) -1
+    while(index >= 0):
+        listOfCoordinates.append(successorStates[index][0])
+        index -= 1
+    return listOfCoordinates
+
+
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
@@ -95,12 +104,34 @@ def depthFirstSearch(problem):
     n = Directions.NORTH
     s = Directions.SOUTH
     w = Directions.WEST
+    visitedNodes = []
+    #direction states
+    # currentdirection = ""
+    # nextdirection = ""
+    #x and y states
+    px,py = 0,0
+    x,y = 0,0
+    dx,dy = 0,0
+    #length of successors
+    successorlength = 0
+    successorCoordinates = []
+    #create stack for usage
     currentPath = util.Stack()
-    
-    print "Start:", problem.getStartState()
-    print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-    print "Start's successors:", problem.getSuccessors(problem.getStartState())
-
+    #get our start state
+    x,y = problem.getStartState()
+    if(problem.isGoalState((x,y))):
+        return []
+    nextstates = problem.getSuccessors((x,y))
+    visitedNodes.append(tuple((x, y)))
+    # print "visted nodes", visitedNodes
+    successorCoordinates = extractCoordinates(nextstates)
+    # print "succesors", successorCoordinates
+    '''
+    we call getSuccessors and get all possibilities, if the first successor is already in the visited nodes list, then we iterate to the next
+    if we get to the end of the successors, then we have hit a dead end or attempted to go into a loop
+    we have to backtrack in this case, which uses the stack, but the visitedNodes still retains the same values
+    '''
+    # while(problem.isGoalState((x,y)) == False):
 
     util.raiseNotDefined()
 
