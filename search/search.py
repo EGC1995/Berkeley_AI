@@ -74,12 +74,18 @@ def tinyMazeSearch(problem):
 
 def extractCoordinates(successorStates):
     listOfCoordinates = []
-    index = len(successorStates) -1
+    index = 0
     print "# of possibilities", index+1
-    while(index >= 0):
+    while(index < len(successorStates)):
         listOfCoordinates.append(successorStates[index][0])
-        index -= 1
+        index += 1
     return listOfCoordinates
+
+def extractCoordinatesSingle(successorStates):
+    listOfCoordinates = []
+    index = 0
+    print "# of possibilities", index+1
+    return successorStates[0]
 
 
 def depthFirstSearch(problem):
@@ -143,12 +149,13 @@ def depthFirstSearch(problem):
             if(successorCoordinates[index] in visitedNodes):
                 #if the node is visited, then move to next node
                 index = index + 1
+                # this is backtracking
                 if(index == len(successorCoordinates)):
                     index = 0
                     nextstates = currentPath.pop()
-                    successorCoordinates = extractCoordinates(nextstates)
-                    x = successorCoordinates[0][0]
-                    y = successorCoordinates[0][1]
+                    successorCoordinates = extractCoordinatesSingle(list(nextstates))
+                    x = successorCoordinates[0]
+                    y = successorCoordinates[1]
                     nextstates = problem.getSuccessors((x,y))
                     successorCoordinates = extractCoordinates(nextstates)
             else:
