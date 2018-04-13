@@ -194,15 +194,6 @@ def depthFirstSearch(problem):
     return endPath
     util.raiseNotDefined()
 
-class AdjList():
-    currentValue = None
-    adjList = []
-    def __init__(self, value):
-        self.currentValue = value
-    def addVertex(self, newNode):
-        self.adjList.append(newNode)
-
-
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
@@ -220,13 +211,23 @@ def breadthFirstSearch(problem):
     #getting start state
     x,y = problem.getStartState()
     #get successor states
+    trackingList = [][]
+    indexOfCurrentNodes = 0
+    indexOfAdjVerticies = 0
     nextstates = problem.getSuccessors((x,y))
     #make sure we are not already at the end state
     if(problem.isGoalState((x,y))):
         return []
     # list of visited nodes
     visitedNodes.append(tuple((x, y)))
+    #this has the tuple value
     successorCoordinates = extractCoordinates(nextstates)
+    #this just gets the queue started
+    while(index < len(successorCoordinates)):
+        visitedNodes.append(tuple(successorCoordinates[index]))
+
+        index += 1
+
 
     util.raiseNotDefined()
 
