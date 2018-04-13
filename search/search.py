@@ -194,6 +194,24 @@ def depthFirstSearch(problem):
     return endPath
     util.raiseNotDefined()
 
+
+class Graph:
+    NodeLists = []
+
+    class Node:
+        nodevalue = None
+        adjList = []
+        def __init__(self, node):
+            self.nodevalue = node
+        def addAdjacentNode(self, adj):
+            self.adjList.append(adj)
+
+    def createNode(self, nodevalue):
+        self.NodeLists.append(self.Node(nodevalue))
+
+    def getNode(self, index):
+        return self.NodeLists[index]
+
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
@@ -206,22 +224,51 @@ def breadthFirstSearch(problem):
     index = 0
     #list of visited nodes
     visitedNodes = []
+    adjIndex = 0
     #initialize queue
     queue = util.Queue()
     #getting start state
     x,y = problem.getStartState()
+    # print problem.getStartState()
     #get successor states
-    trackingList = [][]
-    indexOfCurrentNodes = 0
-    indexOfAdjVerticies = 0
+    currentState = ((x,y), '', None)
+    adjList = Graph()
+    adjList.createNode(currentState)
+    # print currentState
     nextstates = problem.getSuccessors((x,y))
+    successors = extractCoordinates(nextstates)
     #make sure we are not already at the end state
     if(problem.isGoalState((x,y))):
         return []
     # list of visited nodes
     visitedNodes.append(tuple((x, y)))
     #this has the tuple value
+    while(index < len(nextstates)):
+        if(successors[index] not in visitedNodes):
+            adjList.getNode(adjIndex).addAdjacentNode(nextstates[index])
+            visitedNodes.append(successors[index])
+            queue.push(nextstates[index])
+        index += 1
+    index = 0
 
+    #BFS algorithm
+    while(queue.isEmpty() == False):
+        adjIndex += 1
+        currentState = queue.pop()
+        x,y = currentState[0]
+        nextstates = problem.getSuccessors((x,y))
+        successors = extractCoordinates(nextstates)
+        adjList.createNode(currentState)
+
+        while(index < len(nextstates)):
+            if(successors[index] not in visitedNodes):
+                print nextstates[index]
+                successors.append(successors[index])
+                adjList.getNode(adjIndex).addAdjacentNode(nextstates[index])
+                queue.push(nextstates[index])
+            index += 1
+
+        index = 0
 
     util.raiseNotDefined()
 
