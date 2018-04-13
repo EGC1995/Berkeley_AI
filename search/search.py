@@ -114,7 +114,8 @@ def depthFirstSearch(problem):
     w = Directions.WEST
     #we want a list of all the nodes that we have visited already
     visitedNodes = []
-    endpath = []
+    endPath = []
+    flag = False
     #direction states
     # currentdirection = ""
     # nextdirection = ""
@@ -132,6 +133,7 @@ def depthFirstSearch(problem):
     if(problem.isGoalState((x,y))):
         return []
     nextstates = problem.getSuccessors((x,y))
+    currentstate = problem.getSuccessors((x, y))
     # print nextstates[0][1]
     visitedNodes.append(tuple((x, y)))
     # print "visted nodes", visitedNodes
@@ -152,12 +154,23 @@ def depthFirstSearch(problem):
                 # this is backtracking
                 if(index == len(successorCoordinates)):
                     index = 0
-                    nextstates = currentPath.pop()
-                    successorCoordinates = extractCoordinatesSingle(list(nextstates))
+                    currentstate = currentPath.pop()
+                    successorCoordinates = extractCoordinatesSingle(list(currentstate))
                     x = successorCoordinates[0]
                     y = successorCoordinates[1]
                     nextstates = problem.getSuccessors((x,y))
                     successorCoordinates = extractCoordinates(nextstates)
+                    index = len(successorCoordinates)-1
+                    while(index>= 0):
+                        if(successorCoordinates[index] in visitedNodes):
+                            index -= 1
+                            flag = True
+                        else:
+                            flag = False
+                            break
+                    if(flag == False):
+                        currentPath.push(currentstate)
+                    index = 0
             else:
                 #go down next node in the path
                 x = successorCoordinates[index][0]
@@ -172,16 +185,16 @@ def depthFirstSearch(problem):
         print "X, Y", x,y
     #by the time we break out of both loops we should have a end state in the stack
     #so we just extract the directions
-    while(currentPath.isEmpty == False):
+    while(currentPath.isEmpty() == False):
         nextstates = currentPath.pop()
         if(nextstates[1] == "North"):
-            endPath.insert(0,'n')
+            endPath.insert(0,n)
         elif(nextstates[1] == "East"):
-            endPath.insert(0,'e')
+            endPath.insert(0,e)
         elif(nextstates[1] == "South"):
-            endPath.insert(0,'s')
+            endPath.insert(0,s)
         elif(nextstates[1] == "West"):
-            endPath.insert(0,'w')
+            endPath.insert(0,w)
     return endPath
     util.raiseNotDefined()
 
@@ -192,6 +205,8 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    queue = util.Queue()
+
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
