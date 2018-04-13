@@ -75,6 +75,7 @@ def tinyMazeSearch(problem):
 def extractCoordinates(successorStates):
     listOfCoordinates = []
     index = len(successorStates) -1
+    print "# of possibilities", index+1
     while(index >= 0):
         listOfCoordinates.append(successorStates[index][0])
         index -= 1
@@ -100,11 +101,14 @@ def depthFirstSearch(problem):
 
     #list of possible actions
     actions = []
+    index = 0
     e = Directions.EAST
     n = Directions.NORTH
     s = Directions.SOUTH
     w = Directions.WEST
+    #we want a list of all the nodes that we have visited already
     visitedNodes = []
+    endpath = []
     #direction states
     # currentdirection = ""
     # nextdirection = ""
@@ -115,24 +119,63 @@ def depthFirstSearch(problem):
     #length of successors
     successorlength = 0
     successorCoordinates = []
-    #create stack for usage
+    #create stack for usage and our current path
     currentPath = util.Stack()
     #get our start state
     x,y = problem.getStartState()
     if(problem.isGoalState((x,y))):
         return []
     nextstates = problem.getSuccessors((x,y))
+    # print nextstates[0][1]
     visitedNodes.append(tuple((x, y)))
     # print "visted nodes", visitedNodes
     successorCoordinates = extractCoordinates(nextstates)
-    # print "succesors", successorCoordinates
+    print "succesors", successorCoordinates
     '''
     we call getSuccessors and get all possibilities, if the first successor is already in the visited nodes list, then we iterate to the next
     if we get to the end of the successors, then we have hit a dead end or attempted to go into a loop
     we have to backtrack in this case, which uses the stack, but the visitedNodes still retains the same values
     '''
-    # while(problem.isGoalState((x,y)) == False):
-
+    while(problem.isGoalState((x,y)) == False):
+        # first we get the first successor coordinates
+        while(index < len(successorCoordinates)):
+            #check if we have already visited the node
+            if(successorCoordinates[index] in visitedNodes):
+                #if the node is visited, then move to next node
+                index = index + 1
+                if(index == len(successorCoordinates)):
+                    index = 0
+                    nextstates = currentPath.pop()
+                    successorCoordinates = extractCoordinates(nextstates)
+                    x = successorCoordinates[0][0]
+                    y = successorCoordinates[0][1]
+                    nextstates = problem.getSuccessors((x,y))
+                    successorCoordinates = extractCoordinates(nextstates)
+            else:
+                #go down next node in the path
+                x = successorCoordinates[index][0]
+                y = successorCoordinates[index][1]
+                visitedNodes.append(tuple((x,y)))
+                currentPath.push(nextstates[index])
+                nextstates = problem.getSuccessors((x,y))
+                successorCoordinates = extractCoordinates(nextstates)
+                index = 0
+                break
+        #we need to backtrack
+        print "X, Y", x,y
+    #by the time we break out of both loops we should have a end state in the stack
+    #so we just extract the directions
+    while(currentPath.isEmpty == False):
+        nextstates = currentPath.pop()
+        if(nextstates[1] == "North"):
+            endPath.insert(0,'n')
+        elif(nextstates[1] == "East"):
+            endPath.insert(0,'e')
+        elif(nextstates[1] == "South"):
+            endPath.insert(0,'s')
+        elif(nextstates[1] == "West"):
+            endPath.insert(0,'w')
+    return endPath
     util.raiseNotDefined()
 
 
