@@ -221,34 +221,6 @@ def breadthFirstSearch(problem):
     # list of visited nodes
     visitedNodes.append(tuple((x, y)))
     #this has the tuple value
-    trackingList[indexOfCurrentNodes][indexOfAdjVerticies] = tuple(x,y)
-    indexOfAdjVerticies += 1
-    successorCoordinates = extractCoordinates(nextstates)
-    #this just gets the queue started
-    while(index < len(successorCoordinates)):
-        visitedNodes.append(tuple(successorCoordinates[index]))
-        queue.push(nextstates[index])
-        trackingList[indexOfCurrentNodes][indexOfAdjVerticies] = nextstates[index]
-        indexOfAdjVerticies += 1
-        index += 1
-    index = 0
-
-    while(queue.isEmpty() == False):
-        currentNode = queue.pop()
-        x,y = currentNode[0]
-        indexOfCurrentNodes += 1
-        indexOfAdjVerticies = 0
-        nextstates = problem.getSuccessors(x,y)
-        successorCoordinates = extractCoordinates(nextstates)
-
-        while(index < len(successorCoordinates)):
-            if(successorCoordinates[index] not in visitedNodes):
-                visitedNodes.append(tuple(successorCoordinates[index]))
-                queue.push(nextstates[index])
-                trackingList[indexOfCurrentNodes][indexOfAdjVerticies] = nextstates[index]
-                indexOfAdjVerticies += 1
-            index += 1
-        
 
 
     util.raiseNotDefined()
