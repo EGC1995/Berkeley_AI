@@ -116,10 +116,6 @@ def depthFirstSearch(problem):
     visitedNodes = []
     endPath = []
     flag = False
-    #direction states
-    # currentdirection = ""
-    # nextdirection = ""
-    #x and y states
     px,py = 0,0
     x,y = 0,0
     dx,dy = 0,0
@@ -198,24 +194,66 @@ def depthFirstSearch(problem):
     return endPath
     util.raiseNotDefined()
 
-
+#start of node class
 class BFSNODE:
-    currentNode
-    parentNode
+    currentNode = None
+    parentNode = None
+    childrenNodes = []
+
     def __init__(self, nodevalue, pnode):
         self.currentNode = nodevalue
         self.parentNode = pnode
- 
+
     def getParent(self):
         return self.parentNode
 
+    def getValue(self):
+        return self.currentNode
+
+    def addChild(self, node):
+        childrenNodes.append(node)
+        return
+
+    def getNext(self):
+        return childrenNodes[0]
+#end of node claas
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    e = Directions.EAST
+    n = Directions.NORTH
+    s = Directions.SOUTH
+    w = Directions.WEST
+    index = 0
+    visitedNodes = []
     queue = util.Queue()
+    x,y = problem.getStartState()
+    nextstates = problem.getSuccessors((x,y))
+    if(problem.isGoalState((x,y))):
+        return []
+    # list of visited nodes
+
+    visitedNodes.append(tuple((x, y)))
+    successorCoordinates = extractCoordinates(nextstates)
+    node = BFSNODE(tuple(x,y), None)
+    #initial queue initialilzation
+    while(index < len(successorCoordinates)):
+        if successorCoordinates[index] not in visitedNodes:
+            node.addChild(BFSNODE(successorCoordinates[index], node))
+            queue.add(nextstates[index])
+            visitedNodes.append(successorCoordinates[index])
+        index += 1
 
 
+
+    #ITERATIVE go through all nodes and build tree
+    # while(problem.isGoalState(x,y) == False):
     util.raiseNotDefined()
+
+
+
+
+
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
