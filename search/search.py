@@ -199,13 +199,21 @@ def depthFirstSearch(problem):
     util.raiseNotDefined()
 
 
-
-
+class BFSNODE:
+    currentNode
+    parentNode
+    def __init__(self, nodevalue, pnode):
+        self.currentNode = nodevalue
+        self.parentNode = pnode
+ 
+    def getParent(self):
+        return self.parentNode
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     queue = util.Queue()
+
 
     util.raiseNotDefined()
 
