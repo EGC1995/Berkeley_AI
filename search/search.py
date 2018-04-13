@@ -75,7 +75,7 @@ def tinyMazeSearch(problem):
 def extractCoordinates(successorStates):
     listOfCoordinates = []
     index = 0
-    print "# of possibilities", index+1
+    # print "# of possibilities", index+1
     while(index < len(successorStates)):
         listOfCoordinates.append(successorStates[index][0])
         index += 1
@@ -194,60 +194,40 @@ def depthFirstSearch(problem):
     return endPath
     util.raiseNotDefined()
 
-#start of node class
-class BFSNODE:
-    currentNode = None
-    parentNode = None
-    childrenNodes = []
+class AdjList():
+    currentValue = None
+    adjList = []
+    def __init__(self, value):
+        self.currentValue = value
+    def addVertex(self, newNode):
+        self.adjList.append(newNode)
 
-    def __init__(self, nodevalue, pnode):
-        self.currentNode = nodevalue
-        self.parentNode = pnode
 
-    def getParent(self):
-        return self.parentNode
-
-    def getValue(self):
-        return self.currentNode
-
-    def addChild(self, node):
-        childrenNodes.append(node)
-        return
-
-    def getNext(self):
-        return childrenNodes[0]
-#end of node claas
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    from game import Directions
+    # directions
     e = Directions.EAST
     n = Directions.NORTH
     s = Directions.SOUTH
     w = Directions.WEST
     index = 0
+    #list of visited nodes
     visitedNodes = []
+    #initialize queue
     queue = util.Queue()
+    #getting start state
     x,y = problem.getStartState()
+    #get successor states
     nextstates = problem.getSuccessors((x,y))
+    #make sure we are not already at the end state
     if(problem.isGoalState((x,y))):
         return []
     # list of visited nodes
-
     visitedNodes.append(tuple((x, y)))
     successorCoordinates = extractCoordinates(nextstates)
-    node = BFSNODE(tuple(x,y), None)
-    #initial queue initialilzation
-    while(index < len(successorCoordinates)):
-        if successorCoordinates[index] not in visitedNodes:
-            node.addChild(BFSNODE(successorCoordinates[index], node))
-            queue.add(nextstates[index])
-            visitedNodes.append(successorCoordinates[index])
-        index += 1
 
-
-
-    #ITERATIVE go through all nodes and build tree
-    # while(problem.isGoalState(x,y) == False):
     util.raiseNotDefined()
 
 
