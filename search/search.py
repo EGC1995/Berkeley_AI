@@ -197,7 +197,6 @@ def depthFirstSearch(problem):
 
 class Graph:
     NodeLists = []
-
     class Node:
         nodevalue = None
         adjList = []
@@ -211,6 +210,10 @@ class Graph:
 
     def getNode(self, index):
         return self.NodeLists[index]
+
+    def getIndex(self, node):
+        return NodeLists.index(node)
+
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
@@ -255,6 +258,7 @@ def breadthFirstSearch(problem):
     while(queue.isEmpty() == False):
         adjIndex += 1
         currentState = queue.pop()
+        print currentState
         x,y = currentState[0]
         nextstates = problem.getSuccessors((x,y))
         successors = extractCoordinates(nextstates)
@@ -262,13 +266,14 @@ def breadthFirstSearch(problem):
 
         while(index < len(nextstates)):
             if(successors[index] not in visitedNodes):
-                print nextstates[index]
-                vistedNodes.append(successors[index])
+                # print nextstates[index]
+                visitedNodes.append(successors[index])
                 adjList.getNode(adjIndex).addAdjacentNode(nextstates[index])
                 queue.push(nextstates[index])
             index += 1
-
         index = 0
+    #go through adj list
+
 
     util.raiseNotDefined()
 
