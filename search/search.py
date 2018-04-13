@@ -263,7 +263,7 @@ def breadthFirstSearch(problem):
         while(index < len(nextstates)):
             if(successors[index] not in visitedNodes):
                 print nextstates[index]
-                successors.append(successors[index])
+                vistedNodes.append(successors[index])
                 adjList.getNode(adjIndex).addAdjacentNode(nextstates[index])
                 queue.push(nextstates[index])
             index += 1
